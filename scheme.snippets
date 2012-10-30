@@ -34,6 +34,16 @@ snippet helper
 	;; Strategy: ${7:structural decomposition on}
 	(define ($1 ${8:ARG LIST HERE})
 	  (${9:FUNCTION CODE HERE}))
+	;; Tests written in test suite at the bottom.
+
+snippet test
+	;; Tests-begin
+	(define-test-suite ${1:xx}-test
+	  (check-equal? ($1 ${2:...}) ${3:result} "${4:MSG}")
+	  (check-equal? ($1 $2) $3 "$4")
+	  (check-equal? ($1 $2) $3 "$4"))
+	(run-tests $1-test)
+	;; Tests-end
 
 snippet main 
 	;; start with ($1 0)
@@ -101,7 +111,7 @@ snippet datadef Partition Data
 	;;[(and (<= 10000 amt) (< amt 20000)) ...]
 	;;[(<= 20000 amt) ...]))
 
-snippet datadef Self-References
+snippet datadef List (Self-References)
 	;; A ListOf${1:Something} (LO${2:X}) is either
 	;; -- empty
 	;; -- (cons $1 LO$2)
@@ -114,21 +124,20 @@ snippet datadef Self-References
 	;;             (first lo$3)
 	;;             (lo$3-fn (rest lob)))]))
 
-snippet strategy Structural Decomposition 
-	;; STRATEGY: Structural Decomposition on ${1:Something} 
-	${2}
+snippet strat Structural Decomposition 
+	;; Strategy: Structural Decomposition on ${1:Something} : ${2}
 
-snippet strategy Domain Knowledge 
-	;; STRATEGY: Domain Knowledge
-	${1}
+snippet strat Domain Knowledge 
+	;; Strategy: Domain Knowledge
 
-snippet strategy Function Composition 
-	;; STRATEGY: Function Composition
-	${1} 
+snippet strat Function Composition 
+	;; Strategy: Function Composition 
 
-snippet strategy Higher Order Function Composition 
-	;; STRATEGY: Higher Order Function Composition
-	${1} 
+snippet strat Higher Order Function Composition 
+	;; Strategy: Higher Order Function Composition 
+
+snippet strat Structural Decomposition with Accumulator
+	;; Strategy: Structural Decomposition on ${1:Something} : ${2} + Accumulator [${3:a}]
 
 snippet let
 	(let ((${1:name} ${2:declaration}))
@@ -149,6 +158,15 @@ snippet defvar
 snippet if
 	(if ${1:conditional} ${2:true} ${3:false})
 
+snippet foldr
+	(foldr 
+	   ; ${1:Book ListOf<Book>} -> ${2:Number}
+	   ; ${3:returns XXX}
+	   ; ${4:Strategy: structural decomposition on b : Book}
+	   (lambda(${5:n lon})
+		 (${6:(xxx n) num}))
+	   ${7:0} ${8:inventory})
+
 snippet when
 	(when ${1:conditional} ${2:true})
 
@@ -161,6 +179,8 @@ snippet case
 		(otherwise ${4:else}))
 
 snippet lambda
-	;; A ${1:XXKeyEvent} is a ${2:MouseEvent} that is one of:
-	(lambda (${1:args})
-	 (${2:body}))
+	; ${1:Book ListOf<Book>} -> ${2:Number}
+	; ${3:returns XXX}
+	; ${4:Strategy: structural decomposition on b : Book}
+	(lambda (${5:args})
+	(${6:body}))
